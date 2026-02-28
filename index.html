@@ -129,8 +129,8 @@ function toggleDark() {
   document.body.classList.toggle("dark");
 }
 
-// Fetch Live Matches
-fetch("https://api.football-data.org/v4/matches?status=LIVE", {
+// Fetch Scheduled Matches (instead of LIVE)
+fetch("https://api.football-data.org/v4/matches?status=SCHEDULED", {
   headers: { "X-Auth-Token": API_KEY }
 })
 .then(res => res.json())
@@ -139,7 +139,7 @@ fetch("https://api.football-data.org/v4/matches?status=LIVE", {
   container.innerHTML = "";
 
   if (!data.matches || data.matches.length === 0) {
-    container.innerHTML = "No live matches right now.";
+    container.innerHTML = "No upcoming matches.";
     return;
   }
 
@@ -148,7 +148,7 @@ fetch("https://api.football-data.org/v4/matches?status=LIVE", {
     div.className = "item";
     div.innerHTML = `
       <span>${match.homeTeam.name}</span>
-      <span>${match.score.fullTime.home ?? 0} — ${match.score.fullTime.away ?? 0}</span>
+      <span>${match.score.fullTime.home || "-"} — ${match.score.fullTime.away || "-"}</span>
       <span>${match.awayTeam.name}</span>
     `;
     container.appendChild(div);
