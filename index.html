@@ -123,16 +123,13 @@
 </footer>
 
 <script>
-const API_KEY = "a896cddb4a3041ef9d428bf2512dafec";
 
 function toggleDark() {
   document.body.classList.toggle("dark");
 }
 
 // Fetch Scheduled Matches (instead of LIVE)
-fetch("https://api.football-data.org/v4/matches?status=SCHEDULED", {
-  headers: { "X-Auth-Token": API_KEY }
-})
+fetch("/api/matches")
 .then(res => res.json())
 .then(data => {
   const container = document.getElementById("matches");
@@ -163,11 +160,9 @@ fetch("https://api.football-data.org/v4/matches?status=SCHEDULED", {
 });
 
 // Fetch Premier League Standings
-fetch("https://api.football-data.org/v4/competitions/PL/standings", {
-  headers: { "X-Auth-Token": API_KEY }
-})
-.then(res => res.json())
-.then(data => {
+fetch("/api/standings")
+  .then(res => res.json())
+  .then(data => {
   const container = document.getElementById("standings");
   container.innerHTML = "";
 
