@@ -171,7 +171,7 @@ if (!data.standings || !data.standings.length) {
   return;
 }
 
-const table = data.standings?.[0]?.table?.slice(0, 5) || [];
+const table = data.standings[0].table.slice(0, 5);
 
   table.forEach(team => {
     const div = document.createElement("div");
