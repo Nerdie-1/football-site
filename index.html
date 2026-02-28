@@ -7,100 +7,93 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 
   <style>
+    :root {
+      --bg: #f8f8f6;
+      --text: #111;
+      --sub: #777;
+      --line: #eaeaea;
+    }
+
+    body.dark {
+      --bg: #0e0e10;
+      --text: #fff;
+      --sub: #aaa;
+      --line: #222;
+    }
+
     body {
       margin: 0;
-      background: #f8f8f6;
-      color: #111;
+      background: var(--bg);
+      color: var(--text);
       font-family: 'Inter', sans-serif;
-      -webkit-font-smoothing: antialiased;
-      animation: fadeIn 1.2s ease;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    nav {
-      display: flex;
-      justify-content: center;
-      gap: 40px;
-      padding: 25px 20px;
-      font-size: 12px;
-      letter-spacing: 3px;
-    }
-
-    nav a {
-      text-decoration: none;
-      color: #555;
-      transition: 0.3s;
-    }
-
-    nav a:hover {
-      color: #000;
+      transition: 0.4s ease;
     }
 
     .brand {
       text-align: center;
+      padding: 40px 20px 10px;
       font-size: 11px;
       letter-spacing: 8px;
-      margin-top: 20px;
-      color: #444;
+    }
+
+    .toggle {
+      text-align: center;
+      font-size: 12px;
+      cursor: pointer;
+      color: var(--sub);
     }
 
     .hero {
       text-align: center;
-      padding: 160px 20px 120px;
+      padding: 120px 20px;
     }
 
     .hero h1 {
       font-family: 'Playfair Display', serif;
-      font-size: 56px;
-      font-weight: 400;
+      font-size: 52px;
       margin: 0;
     }
 
     .hero p {
-      margin-top: 20px;
-      font-size: 15px;
-      color: #777;
+      color: var(--sub);
+      margin-top: 15px;
     }
 
     .section {
       max-width: 600px;
-      margin: 120px auto;
+      margin: 100px auto;
       padding: 0 20px;
     }
 
     .section-title {
       font-size: 11px;
       letter-spacing: 4px;
-      color: #aaa;
-      margin-bottom: 50px;
+      color: var(--sub);
+      margin-bottom: 40px;
     }
 
-    .match, .standing {
+    .item {
       display: flex;
       justify-content: space-between;
-      padding: 20px 0;
+      padding: 16px 0;
       font-size: 14px;
-      transition: 0.3s ease;
-    }
-
-    .match:hover, .standing:hover {
-      transform: translateX(6px);
     }
 
     .divider {
       height: 1px;
-      background: #eaeaea;
+      background: var(--line);
     }
 
     footer {
       text-align: center;
-      padding: 160px 20px 40px;
+      padding: 120px 20px 40px;
       font-size: 11px;
-      color: #aaa;
+      color: var(--sub);
+    }
+
+    .loading {
+      color: var(--sub);
+      font-size: 13px;
     }
   </style>
 </head>
@@ -108,74 +101,96 @@
 <body>
 
 <div class="brand">MATCHDAY ZONE</div>
-
-<nav>
-  <a href="#live">LIVE</a>
-  <a href="#standings">STANDINGS</a>
-  <a href="#about">ABOUT</a>
-</nav>
+<div class="toggle" onclick="toggleDark()">Toggle Dark Mode</div>
 
 <section class="hero">
   <h1>Football.</h1>
-  <p>Refined. Essential. Timeless.</p>
+  <p>Live. Minimal. Updated.</p>
 </section>
 
-<section class="section" id="live">
+<section class="section">
   <div class="section-title">LIVE MATCHES</div>
-
-  <div class="match">
-    <span>Real Madrid</span>
-    <span>2 — 1</span>
-    <span>Barcelona</span>
-  </div>
-  <div class="divider"></div>
-
-  <div class="match">
-    <span>Manchester City</span>
-    <span>3 — 2</span>
-    <span>Arsenal</span>
-  </div>
-  <div class="divider"></div>
-
-  <div class="match">
-    <span>Bayern Munich</span>
-    <span>1 — 1</span>
-    <span>PSG</span>
-  </div>
+  <div id="matches" class="loading">Loading matches...</div>
 </section>
 
-<section class="section" id="standings">
-  <div class="section-title">LEAGUE STANDINGS</div>
-
-  <div class="standing">
-    <span>1. Manchester City</span>
-    <span>70 pts</span>
-  </div>
-  <div class="divider"></div>
-
-  <div class="standing">
-    <span>2. Arsenal</span>
-    <span>68 pts</span>
-  </div>
-  <div class="divider"></div>
-
-  <div class="standing">
-    <span>3. Real Madrid</span>
-    <span>65 pts</span>
-  </div>
-</section>
-
-<section class="section" id="about">
-  <div class="section-title">ABOUT</div>
-  <p style="color:#777; line-height:1.8; font-size:14px;">
-    Matchday Zone delivers live football updates in a clean, minimal environment.
-    No clutter. Just the game.
-  </p>
+<section class="section">
+  <div class="section-title">PREMIER LEAGUE STANDINGS</div>
+  <div id="standings" class="loading">Loading standings...</div>
 </section>
 
 <footer>
   © 2026 Matchday Zone
 </footer>
+
+<script>
+const API_KEY = "a896cddb4a3041ef9d428bf2512dafec";
+
+function toggleDark() {
+  document.body.classList.toggle("dark");
+}
+
+// Fetch Live Matches
+fetch("https://api.football-data.org/v4/matches?status=LIVE", {
+  headers: { "X-Auth-Token": API_KEY }
+})
+.then(res => res.json())
+.then(data => {
+  const container = document.getElementById("matches");
+  container.innerHTML = "";
+
+  if (!data.matches || data.matches.length === 0) {
+    container.innerHTML = "No live matches right now.";
+    return;
+  }
+
+  data.matches.slice(0, 5).forEach(match => {
+    const div = document.createElement("div");
+    div.className = "item";
+    div.innerHTML = `
+      <span>${match.homeTeam.name}</span>
+      <span>${match.score.fullTime.home ?? 0} — ${match.score.fullTime.away ?? 0}</span>
+      <span>${match.awayTeam.name}</span>
+    `;
+    container.appendChild(div);
+
+    const line = document.createElement("div");
+    line.className = "divider";
+    container.appendChild(line);
+  });
+})
+.catch(() => {
+  document.getElementById("matches").innerHTML = "Error loading matches.";
+});
+
+// Fetch Premier League Standings
+fetch("https://api.football-data.org/v4/competitions/PL/standings", {
+  headers: { "X-Auth-Token": API_KEY }
+})
+.then(res => res.json())
+.then(data => {
+  const container = document.getElementById("standings");
+  container.innerHTML = "";
+
+  const table = data.standings[0].table.slice(0, 5);
+
+  table.forEach(team => {
+    const div = document.createElement("div");
+    div.className = "item";
+    div.innerHTML = `
+      <span>${team.position}. ${team.team.name}</span>
+      <span>${team.points} pts</span>
+    `;
+    container.appendChild(div);
+
+    const line = document.createElement("div");
+    line.className = "divider";
+    container.appendChild(line);
+  });
+})
+.catch(() => {
+  document.getElementById("standings").innerHTML = "Error loading standings.";
+});
+</script>
 
 </body>
 </html>
