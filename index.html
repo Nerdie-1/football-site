@@ -4,7 +4,6 @@
   <title>Matchday Zone</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Elegant + Clean Font Pair -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 
   <style>
@@ -14,20 +13,44 @@
       color: #111;
       font-family: 'Inter', sans-serif;
       -webkit-font-smoothing: antialiased;
+      animation: fadeIn 1.2s ease;
     }
 
-    header {
-      text-align: center;
-      padding: 50px 20px;
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      padding: 25px 20px;
       font-size: 12px;
+      letter-spacing: 3px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #555;
+      transition: 0.3s;
+    }
+
+    nav a:hover {
+      color: #000;
+    }
+
+    .brand {
+      text-align: center;
+      font-size: 11px;
       letter-spacing: 8px;
-      font-weight: 500;
+      margin-top: 20px;
       color: #444;
     }
 
     .hero {
       text-align: center;
-      padding: 180px 20px 140px;
+      padding: 160px 20px 120px;
     }
 
     .hero h1 {
@@ -38,14 +61,14 @@
     }
 
     .hero p {
-      margin-top: 24px;
+      margin-top: 20px;
       font-size: 15px;
       color: #777;
     }
 
     .section {
-      max-width: 560px;
-      margin: 140px auto;
+      max-width: 600px;
+      margin: 120px auto;
       padding: 0 20px;
     }
 
@@ -56,17 +79,16 @@
       margin-bottom: 50px;
     }
 
-    .match {
+    .match, .standing {
       display: flex;
       justify-content: space-between;
-      padding: 24px 0;
-      font-size: 15px;
+      padding: 20px 0;
+      font-size: 14px;
       transition: 0.3s ease;
     }
 
-    .match:hover {
+    .match:hover, .standing:hover {
       transform: translateX(6px);
-      color: #000;
     }
 
     .divider {
@@ -85,16 +107,20 @@
 
 <body>
 
-<header>
-  MATCHDAY ZONE
-</header>
+<div class="brand">MATCHDAY ZONE</div>
+
+<nav>
+  <a href="#live">LIVE</a>
+  <a href="#standings">STANDINGS</a>
+  <a href="#about">ABOUT</a>
+</nav>
 
 <section class="hero">
   <h1>Football.</h1>
   <p>Refined. Essential. Timeless.</p>
 </section>
 
-<section class="section">
+<section class="section" id="live">
   <div class="section-title">LIVE MATCHES</div>
 
   <div class="match">
@@ -116,6 +142,35 @@
     <span>1 — 1</span>
     <span>PSG</span>
   </div>
+</section>
+
+<section class="section" id="standings">
+  <div class="section-title">LEAGUE STANDINGS</div>
+
+  <div class="standing">
+    <span>1. Manchester City</span>
+    <span>70 pts</span>
+  </div>
+  <div class="divider"></div>
+
+  <div class="standing">
+    <span>2. Arsenal</span>
+    <span>68 pts</span>
+  </div>
+  <div class="divider"></div>
+
+  <div class="standing">
+    <span>3. Real Madrid</span>
+    <span>65 pts</span>
+  </div>
+</section>
+
+<section class="section" id="about">
+  <div class="section-title">ABOUT</div>
+  <p style="color:#777; line-height:1.8; font-size:14px;">
+    Matchday Zone delivers live football updates in a clean, minimal environment.
+    No clutter. Just the game.
+  </p>
 </section>
 
 <footer>
